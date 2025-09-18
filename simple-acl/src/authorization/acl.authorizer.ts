@@ -23,7 +23,7 @@ export class AclAuthorizerProvider implements Provider<Authorizer> {
       if (!role || !method) return AuthorizationDecision.DENY;
 
       const rule = await this.aclRepo.findOne({
-        where: {principalId: role, property: method},
+        where: {principalid: role, property: method},
       });
 
       console.log('Rule found:', rule);

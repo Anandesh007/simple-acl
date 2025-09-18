@@ -13,19 +13,19 @@ export class Acl extends Entity {
     type: 'string',
     required: true,
   })
-  accessType: string;
+  accesstype: string;
 
   @property({
     type: 'string',
     required: true,
   })
-  principalType: string;
+  principaltype: string;
 
   @property({
     type: 'string',
     required: true,
   })
-  principalId: string;
+  principalid: string;
 
   @property({
     type: 'string',
