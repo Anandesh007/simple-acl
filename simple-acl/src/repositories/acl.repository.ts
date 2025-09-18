@@ -12,5 +12,6 @@ export class AclRepository extends DefaultCrudRepository<
     @inject('datasources.db') dataSource: DbDataSource,
   ) {
     super(Acl, dataSource);
+    console.log(" from reposistory");
   }
 }

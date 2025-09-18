@@ -9,8 +9,9 @@ import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
-import {AuthorizationComponent, AuthorizationOptions} from '@loopback/authorization';
+import {AuthorizationComponent, AuthorizationTags} from '@loopback/authorization';
 import {AclAuthorizerProvider} from './authorization/acl.authorizer';
+
 import {AuthenticationComponent, registerAuthenticationStrategy} from '@loopback/authentication';
 import {JWTStrategy} from './authentication/jwt-strategy';
 
@@ -39,10 +40,9 @@ export class SimpleAclApplication extends BootMixin(
       path: '/explorer',
     });
     this.component(RestExplorerComponent);
-    this.bind('authorization.acl.authorizer').toClass(AclAuthorizerProvider);
-    this.bind('authentication.jwt-startegy').toClass(JWTStrategy);
-    
-  
+   
+    this.bind('authentication.jwt-strategy').toClass(JWTStrategy);
+     this.bind('authorization.acl-authorizer').toProvider(AclAuthorizerProvider).tag(AuthorizationTags.AUTHORIZER);
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here
     this.bootOptions = {

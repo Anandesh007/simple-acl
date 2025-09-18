@@ -16,9 +16,10 @@ export class AclAuthorizerProvider implements Provider<Authorizer> {
       metadata: AuthorizationMetadata,
     ) => {
         
-      const user = authorizationCtx.principals[0]; // JWT user {id, role}
+      const user = authorizationCtx.principals[0];
       const role = user?.role;
-      const method = metadata.resource;
+      const method = metadata.resource ?? metadata.scopes;
+      console.log("from authorizer");
         console.log('Role:', role, 'Method:', method);
       if (!role || !method) return AuthorizationDecision.DENY;
 

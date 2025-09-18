@@ -11,7 +11,7 @@ export class JWTStrategy implements AuthenticationStrategy {
     if (!token) return undefined;
 
     const payload = jwt.verify(token, 'mysecretkey') as any;
-
+    
     const userProfile: UserProfile = {
       [securityId]: payload.id.toString(),
       id: payload.id,

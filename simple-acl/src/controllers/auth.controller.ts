@@ -23,7 +23,7 @@ export class AuthController {
       JWT_SECRET,
       {expiresIn: '1h'},
     );
-
+    
     return {token, role: user.role};
   }
 }
