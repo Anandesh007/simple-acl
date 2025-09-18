@@ -39,7 +39,10 @@ export class SimpleAclApplication extends BootMixin(
       path: '/explorer',
     });
     this.component(RestExplorerComponent);
-    this.bind('authorizationProviders.acl-authorizer').toProvider(AclAuthorizerProvider);
+    this.bind('authorization.acl.authorizer').toClass(AclAuthorizerProvider);
+    this.bind('authentication.jwt-startegy').toClass(JWTStrategy);
+    
+  
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here
     this.bootOptions = {
