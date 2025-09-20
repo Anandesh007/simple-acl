@@ -11,13 +11,12 @@ import path from 'path';
 import {MySequence} from './sequence';
 import {AuthorizationComponent, AuthorizationTags} from '@loopback/authorization';
 import {AclAuthorizerProvider} from './authorization/acl.authorizer';
-
 import {AuthenticationComponent, registerAuthenticationStrategy} from '@loopback/authentication';
 import {JWTStrategy} from './authentication/jwt-strategy';
 
 export {ApplicationConfig};
 
-export class SimpleAclApplication extends BootMixin(
+export class GetProductApplication extends BootMixin(
   ServiceMixin(RepositoryMixin(RestApplication)),
 ) {
   constructor(options: ApplicationConfig = {}) {
@@ -26,23 +25,23 @@ export class SimpleAclApplication extends BootMixin(
     // Set up the custom sequence
     this.sequence(MySequence);
 
-    //Set up the custom component
+    // Set up default home page
+    this.static('/', path.join(__dirname, '../public'));
+
     this.component(AuthorizationComponent);
 
     this.component(AuthenticationComponent);
     registerAuthenticationStrategy(this, JWTStrategy);
 
-    // Set up default home page
-    this.static('/', path.join(__dirname, '../public'));
+    this.bind('authentication.jwt-strategy').toClass(JWTStrategy);
+    this.bind('authorization.acl-authorizer').toProvider(AclAuthorizerProvider).tag(AuthorizationTags.AUTHORIZER);
 
     // Customize @loopback/rest-explorer configuration here
     this.configure(RestExplorerBindings.COMPONENT).to({
       path: '/explorer',
     });
     this.component(RestExplorerComponent);
-   
-    this.bind('authentication.jwt-strategy').toClass(JWTStrategy);
-    this.bind('authorization.acl-authorizer').toProvider(AclAuthorizerProvider).tag(AuthorizationTags.AUTHORIZER);
+
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here
     this.bootOptions = {
